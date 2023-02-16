@@ -1,0 +1,1 @@
+# swiftui_extension_swipe_dismissable
