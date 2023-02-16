@@ -1,40 +1,11 @@
 # swiftui_extension_swipe_dismissable
 
 ```swift
-struct ModalView: View {
-    
-    @GestureState var draggingOffset: CGSize = .zero
-    @State var backgroundOpacity: CGFloat = 1
-    @Environment(\.dismiss) var dismiss: DismissAction
-    
-    var body: some View {
-        ZStack {
-            Color
-                .black
-                .ignoresSafeArea()
-                .opacity(self.backgroundOpacity)
-        }
-        .bottomDragDismissable(backgroundOpacity: self.$backgroundOpacity,
-                               offset: self.$draggingOffset,
-                               onDismiss: {
-            self.dismiss()
-        })
-//        .leftDragDismissable(backgroundOpacity: self.$backgroundOpacity,
-//                             offset: self.$draggingOffset,
-//                             onDismiss: { self.dismiss() })
-        
-    }
-    
-
-    
-}
-```
-
-```swift
+import SwiftUI
 
 extension View {
     
-    func leftDragDismissable(backgroundOpacity: Binding<CGFloat>,
+    func leftDragDismissable(backgroundOpacity: Binding<CGFloat> = .constant(1),
                              offset: GestureState<CGSize>,
                              dismissAt: CGFloat = UIScreen.main.bounds.width / 2,
                              onDismiss: (() -> Void)? = nil) -> some View {
@@ -54,8 +25,9 @@ extension View {
             withAnimation(.easeInOut) {
                 let translation: CGFloat = value.translation.width
                 if translation > dismissAt {
-                    onDismiss?()
                     backgroundOpacity.wrappedValue = 1
+                    onDismiss?()
+                } else {
                     backgroundOpacity.wrappedValue = 1
                 }
             }
@@ -76,7 +48,7 @@ extension View {
         
     }
     
-    func bottomDragDismissable(backgroundOpacity: Binding<CGFloat>,
+    func bottomDragDismissable(backgroundOpacity: Binding<CGFloat> = .constant(1),
                                offset: GestureState<CGSize>,
                                dismissAt: CGFloat = UIScreen.main.bounds.height / 2,
                                onDismiss: (() -> Void)? = nil) -> some View {
@@ -97,8 +69,9 @@ extension View {
             withAnimation(.easeInOut) {
                 let translation: CGFloat = value.translation.height
                 if translation > dismissAt {
-                    onDismiss?()
                     backgroundOpacity.wrappedValue = 1
+                    onDismiss?()
+                } else {
                     backgroundOpacity.wrappedValue = 1
                 }
             }
